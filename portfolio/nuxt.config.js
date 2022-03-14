@@ -6,11 +6,11 @@ export default {
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-  router: { base: '/wallggom.github.io/' },
+  // router: { base: '/wallggom.github.io/' },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - portfolio',
-    title: 'portfolio',
+    titleTemplate: '%s - Portfolio',
+    title: 'WallGGom',
     htmlAttrs: {
       lang: 'en'
     },
