@@ -1,88 +1,25 @@
 <template>
   <v-app dark>
-    <!-- <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer> -->
-    <v-app-bar :clipped-left="clipped" fixed app height="100" color="#00BFA5">
-      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
-      <!-- <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn> -->
-      <!-- <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn> -->
-      <!-- <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn> -->
-
-      <v-row align="center" justify="space-around">
-        <v-btn width="140" height="70" text> Normal </v-btn>
-        <v-btn width="140" height="70" text color="primary"> Primary </v-btn>
-        <v-btn width="140" height="70" text color="error"> Error </v-btn>
-        <v-btn width="140" height="70" text disabled> Disabled </v-btn>
+    <v-app-bar fixed app height="100" color="#00BFA5">
+      <v-row align="center" justify="center">
+        <div>{{ $store.state.scrollOffset }}</div>
+        <div
+          v-for="typo in menu"
+          :key="typo[0]"
+          :class="[selectIndex == typo[0] ? `text-h3` : `text-${typo[1]}`, ,]"
+          class="transition-swing px-4 menu-item mx-4"
+          v-text="typo[2]"
+          @click="selectMenu(typo[0])"
+        ></div>
       </v-row>
-
-      <!-- <v-spacer /> -->
-      <!-- <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn> -->
     </v-app-bar>
     <v-main>
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    <!-- <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer> -->
-    <v-footer :absolute="!fixed" app>
+
+    <v-footer :absolute="true" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -91,31 +28,49 @@
 <script>
 export default {
   name: "DefaultLayout",
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
+  },
+  // computed: {
+  //   scrollOffset() {
+  //     return this.$store.state.scrollOffset;
+  //   },
+  // },
   data() {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: "mdi-apps",
-          title: "Welcome",
-          to: "/",
-        },
-        {
-          icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
-        },
+      menu: [
+        [0, "h4", "메뉴"],
+        [1, "h4", "메뉴"],
+        [2, "h4", "메뉴"],
+        [3, "h4", "메뉴"],
+        [4, "h4", "메뉴"],
+        [5, "h4", "메뉴"],
+        [6, "h4", "메뉴"],
       ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: "Vuetify.js",
+      selectIndex: 0,
     };
+  },
+
+  methods: {
+    selectMenu(index) {
+      console.log("click", index);
+      this.selectIndex = index;
+    },
+    handleScroll() {
+      this.$store.commit(
+        "setScrollOffset",
+        document.scrollingElement.scrollTop
+      );
+    },
   },
 };
 </script>
 <style scoped>
-
+.menu-item {
+  cursor: pointer;
+  /* color: red; */
+}
 </style>
