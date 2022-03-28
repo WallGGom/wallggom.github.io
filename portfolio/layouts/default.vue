@@ -14,7 +14,7 @@
       </v-row>
     </v-app-bar>
     <v-main>
-      <v-container>
+      <v-container max-width="1920px">
         <Nuxt />
       </v-container>
     </v-main>
